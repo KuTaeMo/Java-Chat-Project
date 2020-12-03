@@ -129,6 +129,7 @@ public class ChatClientTest extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tfChat.setText("MSG:"+tfID.getText()+":");
+				tfID.setText("");
 			}
 		});
 		rbMsgMsg.addItemListener(new ItemListener() {
@@ -226,7 +227,12 @@ public class ChatClientTest extends JFrame{
 		//2번 서버로 전송
 
 		//3번 tfChat비우기
-		tfChat.setText("");
+		if(rbMsgAll.isSelected()==true) {
+			tfChat.setText("ALL:");
+		}else if(rbMsgMsg.isSelected()==true) {
+			tfChat.setText("MSG:");
+		}
+		
 	}
 	
 	private void save() {
