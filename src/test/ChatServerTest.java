@@ -23,7 +23,7 @@ public class ChatServerTest {
 	private ServerSocket serverSocket;
 	private Vector<ClientInfo> vc;	//연결된 클라이언트 클래스(소켓)을 담는 컬렉션
 	private Vector <String> vcdata=new Vector<String>();
-	private File file=new File("c:\\Temp\\chatServerTest.txt");
+	private File file;
 	private FileWriter fout;
 	
 	public ChatServerTest() {
@@ -45,7 +45,21 @@ public class ChatServerTest {
 			e.printStackTrace();
 		}	
 	}
-	
+	public void saveLog() {
+		System.out.println("실행");
+		try {
+			fout=new FileWriter("c:\\Temp\\chatServerTest.txt");
+			String[] arr=new String[30];
+			for(int i=0;i<vcdata.size();i++) {
+				arr[i]=vcdata.get(i);
+				fout.write(arr[i]);
+				fout.write("\r\n");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	class ClientInfo extends Thread{
 		
 		Socket socket; //콤포지션
@@ -103,7 +117,7 @@ public class ChatServerTest {
 					vc.get(i).writer.flush();
 					}
 				}vcdata.add(dto.getMsg());
-				System.out.println(dto.getMsg());
+				saveLog();
 			}else if(dto.getGubun().equals(ChatInter.MSG)) {	
 				String tempId = dto.getId();
 				String tempMsg = dto.getMsg();
@@ -114,28 +128,12 @@ public class ChatServerTest {
 						vc.get(i).writer.flush();
 					}
 				}vcdata.add(dto.getMsg());
-				System.out.println(dto.getMsg());
+				saveLog();
 			}
 		}
-	}
-	public void saveLog() {
-		try {
-			fout=new FileWriter(file);
-			String[] arr=new String[30];
-			for(int i=0;i<vcdata.size();i++) {
-				arr[i]=vcdata.get(i);
-				fout.write(arr[i]);
-				fout.write("\r\n");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public static void main(String[] args) {
-		ChatServerTest t1=new ChatServerTest();
-		t1.saveLog();
+		new ChatServerTest();
 	}
 }

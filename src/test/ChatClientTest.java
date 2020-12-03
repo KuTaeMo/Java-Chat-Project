@@ -160,7 +160,7 @@ public class ChatClientTest extends JFrame{
 		});
 		this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) { 
-            	save();
+            	//save();
             	System.out.println("³¡³ª¿ä!");
             	System.exit(0);
             }
