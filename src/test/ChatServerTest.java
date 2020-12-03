@@ -2,8 +2,6 @@ package test;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,21 +43,21 @@ public class ChatServerTest {
 			e.printStackTrace();
 		}	
 	}
-	public void saveLog() {
-		System.out.println("실행");
-		try {
-			fout=new FileWriter("c:\\Temp\\chatServerTest.txt");
-			String[] arr=new String[30];
-			for(int i=0;i<vcdata.size();i++) {
-				arr[i]=vcdata.get(i);
-				fout.write(arr[i]);
-				fout.write("\r\n");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void saveLog() {	//파일 저장 메소드 실행 x ㅠ
+//		System.out.println("실행");
+//		try {
+//			fout=new FileWriter("c:\\Temp\\chatServerTest.txt");
+//			String[] arr=new String[50];
+//			for(int i=0;i<vcdata.size();i++) {
+//				arr[i]=vcdata.get(i);
+//				fout.write(arr[i]);
+//				fout.write("\r\n");
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	class ClientInfo extends Thread{
 		
 		Socket socket; //콤포지션
@@ -90,7 +88,9 @@ public class ChatServerTest {
 						routing(dto);
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					//System.out.println("끝");
+					//saveLog();
+					System.exit(0);
 				}
 		}
 		public void meeting() {
@@ -99,6 +99,7 @@ public class ChatServerTest {
 				writer.flush();
 		}
 		private void routing(ChatTestDto dto) {
+			String msg=null;
 			 if(id==null) {
 					if(dto.getGubun().equals("ID")) {
 						id=dto.getId();
@@ -117,7 +118,6 @@ public class ChatServerTest {
 					vc.get(i).writer.flush();
 					}
 				}vcdata.add(dto.getMsg());
-				saveLog();
 			}else if(dto.getGubun().equals(ChatInter.MSG)) {	
 				String tempId = dto.getId();
 				String tempMsg = dto.getMsg();
@@ -128,7 +128,6 @@ public class ChatServerTest {
 						vc.get(i).writer.flush();
 					}
 				}vcdata.add(dto.getMsg());
-				saveLog();
 			}
 		}
 	}
